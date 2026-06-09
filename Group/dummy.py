@@ -1,31 +1,27 @@
 # dummy.py
-import random
-
 class Dummy:
     def __init__(self):
         self.jmeno = "Tréninkový Bot (Dummy)"
-        self.zivoty = 300 # Obrovská hromada životů na testování
-        self.schopnosti = ["Slabé šťouchnutí", "Zrezivělý laser", "Samooprava chyb"]
-        self.is_dummy = True # Značka pro main.py, aby věděl, že má hrát počítač
+        self.zivoty = 2000
+        self.luck = 1
+        self.schopnosti = ["Slabé šťouchnutí", "Zrezivělý laser", "Nouzová oprava"]
+        self.is_dummy = True
 
     def vypis_schopnosti(self):
-        """Zobrazí schopnosti robota (pro přehled v konzoli)."""
         for i, schopnost in enumerate(self.schopnosti):
             print(f"{i + 1} - {schopnost}")
 
-    def použij_schopnost(self, index, protivnik):
-        """Dummy útočí velmi slabě, slouží jako fackovací panák."""
+    def použij_schopnost(self, index):
         if index == 0:
-            poskozeni = 2
-            protivnik.zivoty -= poskozeni
-            print(f"{self.jmeno} tě slabě šťouchl do ramene za {poskozeni} HP.")
-            
+            print(f"{self.jmeno} použil slabé šťouchnutí za 10 dmg!")
+            return ("utok", 10)
         elif index == 1:
-            poskozeni = 4
-            protivnik.zivoty -= poskozeni
-            print(f"{self.jmeno} vystřelil zrezivělý laser za {poskozeni} HP.")
-            
+            print(f"{self.jmeno} použil zrezivělý laser za 25 dmg!")
+            return ("utok", 25)
         elif index == 2:
-            leceni = 10
-            self.zivoty += leceni
-            print(f"{self.jmeno} spustil samoopravu a vyléčil se o {leceni} HP.")
+            return ("heal", 40)
+
+    def reakce(self, protivnik, dmg):
+        # Dummy nemá žádný pokročilý štít, poškození se mu rovnou odečte
+        self.zivoty -= dmg
+        print(f"Reakce: {self.jmeno} přijal ránu od {protivnik.jmeno} za {dmg} HP.")
